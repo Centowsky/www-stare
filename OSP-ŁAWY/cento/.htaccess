@@ -1,0 +1,14 @@
+### PROTECT FILES ###
+<FilesMatch "\.(htaccess|htpasswd|ini|fla|psd|log|sh)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+Options FollowSymLinks
+RewriteEngine on
+RewriteRule ^home$ index.html [L]
+RewriteRule ^informacje$ informacje.html [L]
+RewriteRule ^portfolio$ portfolio.html [L]
+RewriteRule ^kontakt$ kontakt.php [L]
+
+ErrorDocument 404 /cento/404.html

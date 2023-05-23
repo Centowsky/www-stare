@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: 
+Allow: /https://osp-lawy.pl/

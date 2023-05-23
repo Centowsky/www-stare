@@ -1,0 +1,37 @@
+body {
+    color: #FFFFFF;
+    overflow-x: hidden;
+    text-align: center;
+    background-color: #212121;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.row {
+    width: 100%;
+    margin: 0;
+}
+
+.container-fluid {
+    margin-top: 10vh;
+}
+
+.table {
+    margin: 0;
+}
+
+.img-avatar {
+    width: 132x;
+    height: 170px;
+}
+
+#f-ch-email,  #f-ch-password, #f-ch-number {
+    display: none;
+}
+
+@media (min-width: 780px) {
+   
+}

@@ -1,0 +1,199 @@
+<?php
+
+	session_start();
+	
+	if (!isset($_SESSION['zalogowany']))
+	{
+		header('Location: logowanie.php');
+		exit();
+    } else {
+        require_once("session.php");
+        session();
+    }
+    
+?>
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <?php
+        echo "<title>".$_SESSION['imie']." ".$_SESSION['nazwisko']." | osp-lawy.pl</title>\n";
+    ?>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<?php require("db.php"); $conn = mysqli_connect($servername, $username, $password, $dbname); if (mysqli_connect_errno()) { printf("Nie udalo sie polaczyc: %s\n", mysqli_connect_error()); exit();} $sql = "SELECT * FROM strona WHERE id_strona = '1'";  $res = mysqli_query($conn, $sql);  $row = mysqli_fetch_array($res, MYSQLI_ASSOC); echo $row['opis']?>">
+    <meta name="keywords" content="<?php $sql = "SELECT * FROM tagi"; $res = mysqli_query($conn, $sql); while($row = mysqli_fetch_array($res, MYSQLI_ASSOC)){ echo $row['nazwa'].", "; }; ?>strona WWW">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fixed.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon" href="img/icon.png">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
+        <a class="navbar-brand" href="#">
+            <img src="img/icon.png" alt="Logo" style="width:35px; padding: 5px;"> OSP ŁAWY
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="o-nas.php">O nas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="wyjazdy.php">Wyjazdy</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Jednostka</a>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Historia</a></li>
+                        <li><a class="dropdown-item" href="#">Pojazdy</a></li>
+                        <li><a class="dropdown-item" href="#">Dokumenty</a></li>
+                        <li><a class="dropdown-item" href="#">Kontakt</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="galeria.php">Galeria</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="profil.php">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" title="Wyloguj" href="wyloguj.php"><i class="fas fa-sign-out-alt"></i></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="border border-primary border-2 rounded bg-light text-dark py-1">
+                    <img class="img-avatar rounded mx-auto d-block" src="img/avatars/<?php echo strtolower($_SESSION['nazwisko']."_".$_SESSION['imie'])?>.jpg" alt="<?php echo $_SESSION['imie']." ".$_SESSION['nazwisko']?>"><br>
+                    <a class="btn btn-lg" href="profil.php" role="button"><?php echo $_SESSION['imie']." ".$_SESSION['nazwisko']?></a>
+                    <?php switch($_SESSION['uprawnienia']){
+                        case 1: echo "<p class='h5'>Redaktor</p>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-success disabled'>Dodaj wpis</button></a>\n\t\t\t\t\t<a href='ustawienia.php'><button class='btn btn-sm m-1 btn-primary'>Moje dane</button></a>\n";
+                        break;
+                        case 2: echo "<p class='h5'>Skarbnik</p>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-success disabled'>Dodaj wpis</button></a>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-danger disabled'>Finanse</button></a>\n\t\t\t\t\t<a href='ustawienia.php'><button class='btn btn-sm m-1 btn-primary'>Moje dane</button></a>\n";  
+                        break; 
+                        case 3: echo "<p class='h5'>Moderator</p>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-success disabled'>Dodaj wpis</button></a>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-danger disabled'>Zarządzaj</button></a>\n\t\t\t\t\t<a href='ustawienia.php'><button class='btn btn-sm m-1 btn-primary'>Moje dane</button></a>\n";  
+                        break; 
+                        case 9: echo "<p class='h5'>Administrator</p>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-success disabled'>Dodaj wpis</button></a>\n\t\t\t\t\t<a href='#'><button class='btn btn-sm m-1 btn-danger disabled'>Zarządzaj</button></a>\n\t\t\t\t\t<a href='ustawienia.php'><button class='btn btn-sm m-1 btn-primary'>Moje dane</button></a>\n"; 
+                        break; 
+                        default: echo "<p class='h5'>Użytkownik</p>\n\t\t\t\t\t<a href='ustawienia.php'><button class='btn btn-sm m-1 btn-primary'>Moje dane</button></a>\n"; break;}?>
+                        <?php if($_SESSION['haslo_zmienione']=="0"){ echo "<p class='text-danger fw-bold'>Twoje hasło musi zostać zmienione</p>";} ?>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="border border-primary border-2 rounded bg-light text-dark">
+                    <table class="table table-striped table-secondary">
+                        <thead>
+                            <th class="text-primary" colspan="2">Twoje dane</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Imie i nazwisko</th>
+                                <td><?php echo $_SESSION['imie']." ".$_SESSION['nazwisko']?></td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td><?php echo $_SESSION['email']?></td>
+                            </tr>
+                            <tr>
+                                <th>Telefon</th>
+                                <td><?php echo $_SESSION['telefon']?></td>
+                            </tr>
+                            <tr>
+                                <th>Funkcja</th>
+                                <td><?php echo $_SESSION['stopien']?></td>
+                            </tr>
+                            <tr>
+                                <th>Data urodzenia</th>
+                                <td><?php echo $_SESSION['data_urodzenia']?></td>
+                            </tr>
+                            <tr>
+                                <th>Badania lekarskie</th>
+                                <td><?php echo $_SESSION['badania_lekarskie']?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="border border-primary border-2 rounded bg-light text-dark">
+                    <table class="table table-striped table-secondary">
+                        <thead>
+                            <th colspan="2" class="text-primary">Twoje kursy</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Podstawowy OSP</th>
+                                <td><?php if(($_SESSION['kurs_podstawowy']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>KPP</th>
+                                <td><?php if(($_SESSION['kurs_kpp']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>Kierowca</th>
+                                <td><?php if(($_SESSION['kurs_kierowca']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>Dowódca</th>
+                                <td><?php if(($_SESSION['kurs_dowodca']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>Rat. Techniczne</th>
+                                <td><?php if(($_SESSION['kurs_techniczny']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>Rat. Poszukiwawcze</th>
+                                <td><?php if(($_SESSION['kurs_poszukiwawczy']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>LPR</th>
+                                <td><?php if(($_SESSION['kurs_lpr']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                            <tr>
+                                <th>Sternik</th>
+                                <td><?php if(($_SESSION['kurs_sternik']) == "1"){echo "<i class='fas fa-check text-success'></i>"; } else {echo "<i class='fas fa-times text-danger'></i>";}?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="border border-primary border-2 rounded bg-light text-dark">
+                    <table class="table table-striped table-secondary">
+                        <thead>
+                            <tr>
+                                <th colspan="3" class="text-primary">Twoje ostatnie wyjazdy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="fw-bold">
+                                <td>Nazwa</td>
+                                <td>Data</td>
+                                <td>Godziny</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="https://kit.fontawesome.com/57516c6d9a.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

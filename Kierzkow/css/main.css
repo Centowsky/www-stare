@@ -1,0 +1,49 @@
+body {
+    color: #FFFFFF;
+    overflow-x: hidden;
+    text-align: center;
+    background-color: #212121;
+    user-select: none;
+}
+
+.section {
+    padding: 15vh 0 15vh 0;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+hr {
+    border: 1px solid #FFFFFF;
+}
+
+.row {
+    width: 100%;
+    margin: 0;
+}
+
+.sticky {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+.img-auto {
+    transition: transform .2s;
+    padding: 2vh;
+}
+
+.img-auto:hover {
+    transform: scale(1.1);
+}
+
+
+@media (min-width: 780px) {
+    .section {
+        padding: 10vh 0 10vh 0;
+    }
+}

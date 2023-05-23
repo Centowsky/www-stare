@@ -1,0 +1,19 @@
+### PROTECT FILES ###
+<FilesMatch "\.(htaccess|htpasswd|ini|fla|psd|log|sh)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+Options FollowSymLinks
+RewriteEngine on
+RewriteRule ^logowanie$ logowanie.php [L]
+RewriteRule ^panel-administratora$ index.php [L]
+RewriteRule ^wyloguj$ wyloguj.php [L]
+RewriteRule ^uzytkownicy$ uzytkownicy.php [L]
+RewriteRule ^posty$ posty.php [L]
+RewriteRule ^ksiazka-wyjazdow$ ksiazka-wyjazdow.php [L]
+RewriteRule ^aktywnosc$ aktywnosc.php [L]
+RewriteRule ^obecnosci$ obecnosci.php [L]
+RewriteRule ^memy$ memy.php [L]
+
+ErrorDocument 404 /404.php

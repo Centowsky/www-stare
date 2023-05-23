@@ -1,0 +1,18 @@
+### PROTECT FILES ###
+<FilesMatch "\.(htaccess|htpasswd|ini|fla|psd|log|sh)$">
+Order Allow,Deny
+Deny from all
+</FilesMatch>
+
+Options FollowSymLinks
+RewriteEngine on
+RewriteCond %{HTTP_HOST} !^(www\.)?osp-lawy\.pl$ [NC]
+RewriteCond %{HTTP_HOST} ^(www\.)?(.*)\.osp-lawy\.pl$ [NC]
+RewriteRule .* /%2%{REQUEST_URI}
+RewriteRule ^historia$ historia.php [L]
+RewriteRule ^pojazd$ pojazd.php [L]
+RewriteRule ^galeria$ galeria.php [L]
+RewriteRule ^ksiazka-wyjazdow$ ksiazka-wyjazdow.php [L]
+RewriteRule ^lista-gosci$ lista-gosci.php [L]
+
+ErrorDocument 404 /404.php

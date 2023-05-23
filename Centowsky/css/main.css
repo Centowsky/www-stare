@@ -1,0 +1,98 @@
+/* Struktura */
+body {
+    overflow-x: hidden;
+    text-align: center;
+    user-select: none;
+    background-color: #212121;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.row {
+    width: 100%;
+    margin: 0;
+}
+
+.section {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+.space {
+    height: 30vh;
+}
+
+.sticky {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+}
+
+/* Elementy */
+
+.jumbotron{
+    margin-top: 25%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    min-height: 50vh;
+}
+
+.soc:hover,.port:hover {
+    scale: 0.8;
+    transform: scale(1.2);
+    transition: all 2s;
+}
+
+#footer {
+    border-top: 1px solid #E6E6E6;
+}
+
+.f-text {
+    font-size: 90%;
+    opacity: 0.9;
+}
+
+a,
+a:hover,
+a:visited,
+a:link {
+    color: #212529;
+    text-decoration: none;
+}
+
+/* ICONS */
+
+.fa-html5 {
+    color: #FF8F00;
+}
+
+.fa-css3-alt {
+    color: #0CFF00;
+}
+
+.fa-js {
+    color: #FF00C5;
+}
+
+.fa-php {
+    color: #4D90E5;
+}
+
+
+/* PC */
+
+@media (min-width: 780px) {
+    .jumbotron{
+        margin-top: 5%;
+    }
+
+    .soc:hover,.port:hover {
+        transform: scale(1.3);
+        transition: all 2s;
+    }
+}
